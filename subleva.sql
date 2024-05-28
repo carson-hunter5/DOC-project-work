@@ -52,6 +52,16 @@ CREATE TABLE IF NOT EXISTS posts
     FOREIGN KEY (migrantID) REFERENCES users (id)
 );
 
+CREATE TABLE IF NOT EXISTS communityEvent
+(
+    date          DATETIME,
+    eventID       INT,
+    name          VARCHAR(255),
+    duration      INT,
+    venueCapacity INT,
+    PRIMARY KEY (eventID)
+);
+
 CREATE TABLE IF NOT EXISTS attendeeEvents
 (
     attendeeID INT,
@@ -61,11 +71,13 @@ CREATE TABLE IF NOT EXISTS attendeeEvents
     FOREIGN KEY (eventID) REFERENCES communityEvent(eventID)
 );
 
-CREATE TABLE IF NOT EXISTS communityEvent
-(
-    date          DATETIME,
-    eventID       INT,
-    name          VARCHAR(255),
-    duration      INT,
-    venueCapacity INT
-)
+CREATE TABLE IF NOT EXISTS dependents(
+    dependeeID INT,
+    name VARCHAR(80),
+    age INT,
+    gender VARCHAR(2),
+    relationship VARCHAR(30),
+    PRIMARY KEY (dependeeID,name),
+    FOREIGN KEY (dependeeID) REFERENCES users(id));
+
+
