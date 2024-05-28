@@ -20,6 +20,19 @@ CREATE TABLE IF NOT EXISTS countries
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS countryStats (
+    countryID INT,
+    year INT,
+    numApplications INT,
+    numRejected INT,
+    numGranted INT,
+    numOther INT,
+    numClosed INT,
+    population INT,
+    PRIMARY KEY (year, countryID),
+    FOREIGN KEY (countryID) REFERENCES countries(id)
+);
+
 CREATE TABLE IF NOT EXISTS volunteers
 (
     name            VARCHAR(255) NOT NULL,
@@ -78,6 +91,15 @@ CREATE TABLE IF NOT EXISTS dependents(
     gender VARCHAR(2),
     relationship VARCHAR(30),
     PRIMARY KEY (dependeeID,name),
-    FOREIGN KEY (dependeeID) REFERENCES users(id));
+    FOREIGN KEY (dependeeID) REFERENCES users(id)
+    );
 
-
+CREATE TABLE IF NOT EXISTS refugeeCohort(
+    cohortID INT,
+    year INT,
+    asylumCountryID INT,
+    originCountryID INT,
+    PRIMARY KEY  (cohortID),
+    FOREIGN KEY (asylumCountryID) REFERENCES countries(id),
+    FOREIGN KEY (originCountryID) REFERENCES countries(id)
+);
