@@ -3,6 +3,7 @@ model01.py is an example of how to access model parameter values that you are st
 in the database and use them to make a prediction when a route associated with prediction is
 accessed. 
 """
+from turtle import pd
 from backend.db_connection import db
 import numpy as np
 import logging
@@ -22,6 +23,17 @@ def get_data(url):
     # Filtering
     data = data[data["coo_id"] != data["coa_id"]]
     
+    # melting data
+    df_melted = pd.melt(demographics, id_vars=["year", "coa_name"], value_vars=["f_0_4", "f_5_11", "f_12_17", "f_18_59", "f_60", "m_0_4", "m_5_11", "m_12_17", "m_18_59", "m_60"],
+                        var_name="age_group", value_name="number")
+
+      # splitting 
+    df_melted['gender'] = df_melted['age_group'].str[0].replace({'f': 'F', 'm': 'M'})
+    df_melted['age_group'] = df_melted['age_group'].str[2:]
+    df_melted = df_melted[["year", "coa_name", "gender", "age_group", "number"]]
+    print(df_melted)
+     #  log transformation
+    df_melted['log_number'] = np.log(df_melted['number'] + 1)
     return data
 
 def train(X, y):
@@ -63,8 +75,6 @@ def predict(var01=None, var02=None, X=None):
   Retreives model parameters from the database and uses them for real-time prediction
   """
 
-
-  
   # get a database cursor 
   cursor = db.get_db().cursor()
   # get the model params from the database
