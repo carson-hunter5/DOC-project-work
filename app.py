@@ -38,8 +38,25 @@ def train(X, y):
 
   return b
 
-def test():
-  return 'Testing the model'
+def test(X, y, b):
+  bias = np.ones((X.shape[0], 1))
+  X = np.hstack((bias, X))
+    
+    # predictions
+  y_hat = np.matmul(X, b)
+    
+    # residuals
+  residuals = y - y_hat
+    
+    # r2
+  ss_total = np.sum((y - np.mean(y)) ** 2)
+  ss_residual = np.sum((y - y_hat) ** 2)
+  r2 = 1 - (ss_residual / ss_total)
+    
+    # mse
+  mse = np.mean((y - y_hat) ** 2)
+    
+  return y_hat, residuals, r2, mse
 
 def predict(var01=None, var02=None, X=None):
   """
