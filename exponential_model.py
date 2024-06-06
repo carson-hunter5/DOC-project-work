@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 def get_data(url):
     category = str(url)
-    response = requests.get(category)
+    response = requests.get()
     data = response.json()
     data_dict = data["items"]
     data = pd.DataFrame.from_records(data_dict)
