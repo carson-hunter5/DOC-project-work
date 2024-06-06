@@ -82,8 +82,7 @@ def predict(var01=None, var02=None, X=None):
   cursor.execute(query)
   return_val = cursor.fetchone()
 
-  if return_val is None:
-        raise ValueError("No model parameters found in the database.")
+
 
   params = return_val['beta_vals']
   logging.info(f'params = {params}')
